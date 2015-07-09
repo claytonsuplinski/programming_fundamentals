@@ -1,0 +1,17 @@
+function SuperClass(){
+	this.super_param = "super";
+};
+
+SuperClass.prototype.super_function = function(){
+	alert("SuperClass: super_function()");
+};
+
+function SubClass(){
+	this.sub_param = "sub";
+};
+
+SubClass.prototype = new SuperClass();
+
+SubClass.prototype.sub_function = function(){
+	alert("SubClass: sub_function()");
+};

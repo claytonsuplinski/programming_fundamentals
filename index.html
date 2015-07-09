@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Programming Fundamentals</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		
+		<link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	
+	</head>
+	<body id="top">
+
+		<!-- Header -->
+		<div class="header-container">
+			<header id="header">
+				<i class="icon fa-code fa-5x" onclick="load_home();" style="cursor:pointer;"></i><br>
+				<h1><strong>Programming Fundamentals</strong>
+					<div class="hidden-xs">A breakdown of basic data structures, algorithms, and programming paradigms in various languages.</div></h1>
+			</header>
+		</div>
+
+		<!-- Main -->
+			<div id="main">
+			
+				<!-- TODO: Make Dynamic -->
+				<ol id="main_breadcrumb" class="breadcrumb"></ol>
+				
+				<div id="dynamic_content">
+				
+				</div>
+				
+				<span style="height:45px;">&nbsp;</span>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<ul class="copyright">
+					<!-- TODO: Make Dynamic -->
+					<li>Author: Clayton Suplinski</li><li>Last Updated: July 7, 2015</li>
+				</ul>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/breadcrumb.js"></script>
+			
+			<script>			
+				//var breadcrumb = new Breadcrumb(window.location.href);
+				//breadcrumb.displayBreadcrumbs();
+				//breadcrumb.updateBreadcrumbs("file:///C:/Users/csuplinski/Desktop/programming_fundamentals/assets/data/");
+				
+				var categories = ["JS", {"full_name": "Python", "abbr": "Py"}, "C++", "Java", "PHP", {"full_name": "Ruby", "abbr": "Rb"}, "Obj-C", "C#"];
+				
+				function load_home(){
+					var content = "";
+					categories.forEach(function(e){
+						var tmp_name = "";
+						var tmp_abbr = "";
+						if(typeof e === 'object'){
+							if("abbr" in e){
+								tmp_abbr = e.abbr;
+							}
+							if("full_name" in e){
+								tmp_name = e.full_name;
+							}
+						}
+						else{
+							tmp_name = e;
+						}
+					
+						content += '<div class="col-md-6" onclick="load_language(&quot;'+tmp_name+'&quot;);">';
+							content += '<div class="panel interactive-panel panel-primary">';
+								content += '<div class="panel-heading">';
+								if(tmp_abbr != ""){
+									content += '<span class="hidden-sm hidden-md hidden-lg">'+tmp_abbr+'</span>';
+									content += '<span class="hidden-xs">'+tmp_name+'</span>';
+								}
+								else{
+									content += tmp_name;
+								}
+								content += '</div>';
+							content += '</div>';
+						content += '</div>';
+					});
+					$("#dynamic_content").html(content);
+				}
+				load_home();
+				
+				function load_language(language){
+					var content = "";
+					content += '<div class="col-lg-12"><div class="panel heading-panel"><div class="panel-heading">'+language+'</div></div></div>';
+					$.getJSON("./"+language+"/data.json", function( data ){
+						for(var i=0; i<data.length; i++){
+							var category = data[i];
+							content += '<div class="col-lg-12"><div class="panel category-panel"><div class="panel-heading">'+category.name+'</div></div></div>';
+							for(var j=0; j<category.categories.length; j++){
+								var topic = category.categories[j];
+								var topic_name = topic.name;
+								var topic_description = topic.description;
+								var topic_filename = "./"+language+"/"+topic.name.toLowerCase()+".txt";
+								content += '<div class="col-lg-12" onclick="load_topic(&quot;'+language+'&quot;, &quot;'+topic.name+'&quot;, &quot;'+topic_filename+'&quot;);"><div class="panel topic-panel"><div class="panel-heading">'+topic.name+'</div></div></div>';
+							}
+						}
+						$("#dynamic_content").html(content);
+					});
+				}
+				
+				function load_topic(language, name, filename){
+					$.ajax({
+						url : filename,
+						dataType: "text",
+						success : function (data) {
+							var content = "";
+							content += '<div class="col-lg-12" onclick="load_language(&quot;'+language+'&quot;);"><div class="panel heading-panel"><div class="panel-heading">'+language+'</div></div></div>';
+							content += '<div class="col-lg-12"><div class="panel category-panel"><div class="panel-heading">'+name+'</div></div></div>';
+							content += '<div class="col-lg-12"><div class="panel code-panel"><div class="panel-heading">';
+							var tmp = data.split("\n");
+							for(var i=0; i<tmp.length; i++){
+								content += tmp[i].replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;").replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;") + "<br>";
+							}
+							content += '</div></div></div>';
+							$("#dynamic_content").html(content);
+						}
+					});
+				}
+				
+			</script>
+
+	</body>
+</html>
