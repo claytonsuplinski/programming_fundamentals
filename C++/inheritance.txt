@@ -1,0 +1,35 @@
+#include <iostream>
+
+using namespace std;
+
+class SuperClass
+{
+    public:        
+        void super_function(){
+            cout << "SuperClass: super_function()" << endl;
+        }
+    
+    protected:
+        string super_param;
+};
+
+class SubClass: public SuperClass
+{
+    public:
+        void sub_function(){
+            cout << "SubClass: sub_function()" << endl;
+        }
+    
+    private:
+        string sub_param;
+};
+
+int main()
+{
+    SubClass test;
+   
+    test.super_function();
+    test.sub_function();
+    cout << "Press ENTER to continue" << endl;
+    cin.ignore();
+}

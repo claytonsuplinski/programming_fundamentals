@@ -68,9 +68,9 @@
 			<script src="assets/js/breadcrumb.js"></script>
 			
 			<script>			
-				//var breadcrumb = new Breadcrumb(window.location.href);
-				//breadcrumb.displayBreadcrumbs();
-				//breadcrumb.updateBreadcrumbs("file:///C:/Users/csuplinski/Desktop/programming_fundamentals/assets/data/");
+				var breadcrumb = new Breadcrumb(window.location.href);
+				breadcrumb.displayBreadcrumbs();
+				breadcrumb.updateBreadcrumbs("./data/");
 				
 				var categories = ["JS", {"full_name": "Python", "abbr": "Py"}, "C++", "Java", "PHP", {"full_name": "Ruby", "abbr": "Rb"}, "Obj-C", "C#"];
 				
@@ -91,7 +91,7 @@
 							tmp_name = e;
 						}
 					
-						content += '<div class="col-md-6" onclick="load_language(&quot;'+tmp_name+'&quot;);">';
+						content += '<div class="col-md-6" onclick="load_language(&quot;'+tmp_name.replace("#", "Sharp")+'&quot;);">';
 							content += '<div class="panel interactive-panel panel-primary">';
 								content += '<div class="panel-heading">';
 								if(tmp_abbr != ""){
@@ -111,7 +111,7 @@
 				
 				function load_language(language){
 					var content = "";
-					content += '<div class="col-lg-12"><div class="panel heading-panel"><div class="panel-heading">'+language+'</div></div></div>';
+					content += '<div class="col-lg-12"><div class="panel heading-panel"><div class="panel-heading">'+language.replace("Sharp", "#")+'</div></div></div>';
 					$.getJSON("./"+language+"/data.json", function( data ){
 						for(var i=0; i<data.length; i++){
 							var category = data[i];
@@ -121,7 +121,7 @@
 								var topic_name = topic.name;
 								var topic_description = topic.description;
 								var topic_filename = "./"+language+"/"+topic.name.toLowerCase()+".txt";
-								content += '<div class="col-lg-12" onclick="load_topic(&quot;'+language+'&quot;, &quot;'+topic.name+'&quot;, &quot;'+topic_filename+'&quot;);"><div class="panel topic-panel"><div class="panel-heading">'+topic.name+'</div></div></div>';
+								content += '<div class="col-lg-12" onclick="load_topic(&quot;'+language.replace("Sharp", "#")+'&quot;, &quot;'+topic.name+'&quot;, &quot;'+topic_filename+'&quot;);"><div class="panel topic-panel"><div class="panel-heading">'+topic.name+'</div></div></div>';
 							}
 						}
 						$("#dynamic_content").html(content);
@@ -134,12 +134,12 @@
 						dataType: "text",
 						success : function (data) {
 							var content = "";
-							content += '<div class="col-lg-12" onclick="load_language(&quot;'+language+'&quot;);"><div class="panel heading-panel"><div class="panel-heading">'+language+'</div></div></div>';
+							content += '<div class="col-lg-12" onclick="load_language(&quot;'+language.replace("#", "Sharp")+'&quot;);"><div class="panel heading-panel"><div class="panel-heading">'+language+'</div></div></div>';
 							content += '<div class="col-lg-12"><div class="panel category-panel"><div class="panel-heading">'+name+'</div></div></div>';
 							content += '<div class="col-lg-12"><div class="panel code-panel"><div class="panel-heading">';
 							var tmp = data.split("\n");
 							for(var i=0; i<tmp.length; i++){
-								content += tmp[i].replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;").replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;") + "<br>";
+								content += tmp[i].replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;").replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;").replace("<", "&lt;").replace(">", "&gt;") + "<br>";
 							}
 							content += '</div></div></div>';
 							$("#dynamic_content").html(content);

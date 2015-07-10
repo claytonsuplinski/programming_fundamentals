@@ -1,0 +1,22 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class SuperClass
+{
+	public void super_function(){
+		System.out.println("SuperClass: super_function()");
+	}	
+}
+
+public class SubClass extends SuperClass{
+	public void sub_function(){
+		System.out.println("SubClass: sub_function()");
+	}
+	
+	public static void main(String[] args){
+		SubClass test = new SubClass();
+		test.super_function();
+		test.sub_function();
+	}
+}

@@ -3189,6 +3189,7 @@
 			
 			.code-panel .panel-heading{
 				color:#666;
+				overflow:auto;
 			}
 			
 			.breadcrumb{

@@ -1,0 +1,27 @@
+using System;
+
+public class SuperClass{
+	public SuperClass(){
+		Console.WriteLine("SuperClass: Constructor");
+	}	
+	public void super_function(){
+		Console.WriteLine("SuperClass: super_function()");
+	}
+}
+
+public class SubClass : SuperClass{
+	public SubClass(){
+		Console.WriteLine("SubClass: Constructor");
+	}	
+	
+	public void sub_function(){
+		Console.WriteLine("SubClass: sub_function()");
+	}
+	
+	public static void Main(){
+		SubClass test = new SubClass();
+		
+		test.super_function();
+		test.sub_function();
+	}
+}

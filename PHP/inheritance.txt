@@ -1,0 +1,15 @@
+class SuperClass{
+	public function super_function(){
+		echo "SuperClass: super_function()\n";
+	}
+}
+
+class SubClass extends SuperClass{
+	public function sub_function(){
+		echo "SubClass: sub_function()\n";
+	}
+}
+
+$test = new SubClass();
+$test->super_function();
+$test->sub_function();

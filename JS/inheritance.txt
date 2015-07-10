@@ -15,3 +15,7 @@ SubClass.prototype = new SuperClass();
 SubClass.prototype.sub_function = function(){
 	alert("SubClass: sub_function()");
 };
+
+var test = new SubClass();
+test.super_function();
+test.sub_function();

@@ -1,0 +1,34 @@
+#import <Foundation/Foundation.h>
+
+@interface SuperClass : NSObject
+{
+}
+
+- (void)super_function;
+@end
+
+@implementation SuperClass
+- (void)super_function{
+	printf("SuperClass: super_function()");
+}
+@end
+
+@interface SubClass : SuperClass
+{
+}
+
+- (void)sub_function;
+@end
+
+@implementation SubClass
+- (void)sub_function{
+	printf("SubClass: sub_function()");
+}
+@end
+
+int main(){
+	SubClass *test = [[SubClass alloc] init];
+	[test sub_function];
+	[test super_function];
+	return 0;
+}

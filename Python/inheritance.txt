@@ -1,0 +1,18 @@
+class SuperClass(object):
+    def __init__(self):
+	    self.super_param = "super"
+	
+    def super_function(self):
+	    print "SuperClass: super_function()"
+
+class SubClass(SuperClass):
+    def __init__(self):
+	    SuperClass.__init__(self)
+	    self.sub_param = "sub"
+	
+    def sub_function(self):
+	    print "SubClass: sub_function()"
+		
+test = SubClass()
+test.sub_function()
+test.super_function()

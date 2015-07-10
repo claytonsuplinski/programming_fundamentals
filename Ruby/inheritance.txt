@@ -1,0 +1,15 @@
+class SuperClass
+    def super_function
+        puts "SuperClass: super_function()"
+    end
+end
+
+class SubClass < SuperClass
+    def sub_function
+        puts "SubClass: sub_function()"
+    end
+end
+
+test = SubClass.new
+test.super_function
+test.sub_function
