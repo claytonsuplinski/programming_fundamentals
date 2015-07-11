@@ -72,7 +72,8 @@
 				breadcrumb.displayBreadcrumbs();
 				breadcrumb.updateBreadcrumbs("./data/");
 				
-				var categories = ["JS", {"full_name": "Python", "abbr": "Py"}, "C++", "Java", "PHP", {"full_name": "Ruby", "abbr": "Rb"}, "Obj-C", "C#"];
+				var categories = ["JS", {"full_name": "Python", "abbr": "Py"}, "C++", "Java", 
+						"PHP", {"full_name": "Ruby", "abbr": "Rb"}, {"full_name": "Obj-C", "abbr": "Ob-C"}, "C#"];
 				
 				function load_home(){
 					var content = "";
@@ -111,7 +112,25 @@
 				
 				function load_language(language){
 					var content = "";
-					content += '<div class="col-lg-12"><div class="panel heading-panel"><div class="panel-heading">'+language.replace("Sharp", "#")+'</div></div></div>';
+					var panel_name = language;
+					var panel_name_xs = language;
+					categories.forEach(function (e){
+						if(typeof e === 'object'){
+							if("full_name" in e){
+								if(e.full_name == language){
+									if("abbr" in e){
+										panel_name_xs = e.abbr;
+									}
+								}
+							}
+						}
+					});
+					content += '<div class="col-lg-12">';
+						content += '<div class="panel heading-panel">';
+							content += '<div class="panel-heading hidden-sm hidden-md hidden-lg">'+panel_name_xs.replace("Sharp", "#")+'</div>';
+							content += '<div class="panel-heading hidden-xs">'+panel_name.replace("Sharp", "#")+'</div>';
+						content += '</div>';
+					content += '</div>';
 					$.getJSON("./"+language+"/data.json", function( data ){
 						for(var i=0; i<data.length; i++){
 							var category = data[i];
@@ -134,7 +153,25 @@
 						dataType: "text",
 						success : function (data) {
 							var content = "";
-							content += '<div class="col-lg-12" onclick="load_language(&quot;'+language.replace("#", "Sharp")+'&quot;);"><div class="panel heading-panel"><div class="panel-heading">'+language+'</div></div></div>';
+							var panel_name = language;
+							var panel_name_xs = language;
+							categories.forEach(function (e){
+								if(typeof e === 'object'){
+									if("full_name" in e){
+										if(e.full_name == language){
+											if("abbr" in e){
+												panel_name_xs = e.abbr;
+											}
+										}
+									}
+								}
+							});
+							content += '<div class="col-lg-12" onclick="load_language(&quot;'+language.replace("#", "Sharp")+'&quot;);">';
+								content += '<div class="panel heading-panel">';
+									content += '<div class="panel-heading hidden-sm hidden-md hidden-lg">'+panel_name_xs+'</div>';
+									content += '<div class="panel-heading hidden-xs">'+panel_name+'</div>';
+								content += '</div>';
+							content += '</div>';
 							content += '<div class="col-lg-12"><div class="panel category-panel"><div class="panel-heading">'+name+'</div></div></div>';
 							content += '<div class="col-lg-12"><div class="panel code-panel"><div class="panel-heading">';
 							var tmp = data.split("\n");
